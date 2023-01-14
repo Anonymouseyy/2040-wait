@@ -1,3 +1,4 @@
+![204W](204W.png)
 # 2040-Wait[^1]
 2040-Wait allows kids to learn basic arithmetic while being an addicting time sink!
 # How To Play
