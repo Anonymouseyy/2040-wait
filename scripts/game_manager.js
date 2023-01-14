@@ -165,7 +165,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
           var next      = self.grid.cellContent(positions.next);
   
           // Only one merger per row traversal?
-          if (next && (next.value >= tile.value-20 && next.value <= tile.value+20) && !next.mergedFrom) {
+          if (next && (Math.floor(Math.log10(tile.value) + 1) === Math.floor(Math.log10(next.value) + 1)) && !next.mergedFrom) {
             var merged = new Tile(positions.next, tile.value + next.value);
             merged.mergedFrom = [tile, next];
   
@@ -268,7 +268,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
   
             var other  = self.grid.cellContent(cell);
   
-            if ((cell >= other-20 && cell <= other+20)) {
+            if ((Math.floor(Math.log10(cell) + 1) === Math.floor(Math.log10(other) + 1))) {
               return true; // These two tiles can be merged
             }
           }
