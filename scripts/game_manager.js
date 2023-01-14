@@ -171,9 +171,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
             
             if (Math.random() > 0.9 ? 0 : 1 && questions == 0) {
               var answer = window.prompt("What is " + tile.value + "+" + next.value + "?", "");
-              if (answer == merged.value) {
-                window.alert("Correct!");
-              } else {
+              if (answer != merged.value) {
                 window.alert("Incorrect: the answer was " + merged.value);
               }
               questions++;
