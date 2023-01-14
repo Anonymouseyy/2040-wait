@@ -159,6 +159,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
       traversals.y.forEach(function (y) {
         cell = { x: x, y: y };
         tile = self.grid.cellContent(cell);
+        var questions = 0
   
         if (tile) {
           var positions = self.findFarthestPosition(cell, vector);
@@ -167,6 +168,17 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
           // Only one merger per row traversal?
           if (next && (Math.floor(Math.log10(tile.value) + 1) === Math.floor(Math.log10(next.value) + 1)) && !next.mergedFrom) {
             var merged = new Tile(positions.next, tile.value + next.value);
+            
+            if (Math.random() > 0.9 ? 0 : 1 && questions == 0) {
+              var answer = window.prompt("What is " + tile.value + "+" + next.value + "?", "");
+              if (answer == merged.value) {
+                window.alert("Correct!");
+              } else {
+                window.alert("Incorrect: the answer was " + merged.value);
+              }
+              questions++;
+            }
+
             merged.mergedFrom = [tile, next];
   
             self.grid.insertTile(merged);
