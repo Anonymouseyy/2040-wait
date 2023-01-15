@@ -9,7 +9,8 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
     this.inputManager.on("move", this.move.bind(this));
     this.inputManager.on("restart", this.restart.bind(this));
     this.inputManager.on("keepPlaying", this.keepPlaying.bind(this));
-  
+
+    
     this.setup();
   }
   
@@ -150,7 +151,9 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
     var vector     = this.getVector(direction);
     var traversals = this.buildTraversals(vector);
     var moved      = false;
-  
+    var del        = false;
+    var questions  = 0
+
     // Save the current tile positions and remove merger information
     this.prepareTiles();
   
@@ -159,8 +162,7 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
       traversals.y.forEach(function (y) {
         cell = { x: x, y: y };
         tile = self.grid.cellContent(cell);
-        var questions = 0
-  
+        
         if (tile) {
           var positions = self.findFarthestPosition(cell, vector);
           var next      = self.grid.cellContent(positions.next);
@@ -169,11 +171,12 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
           if (next && (Math.floor(Math.log10(tile.value) + 1) === Math.floor(Math.log10(next.value) + 1)) && !next.mergedFrom) {
             var merged = new Tile(positions.next, tile.value + next.value);
             
-            if (Math.random() > 0.9 ? 0 : 1 && questions == 0) {
+            if (Math.random() < 0.9 ? 0 : 1 && questions == 0) {
               var answer = window.prompt("What is " + tile.value + "+" + next.value + "?", "");
               if (answer != merged.value) {
+                del = true;
                 window.alert("Incorrect: the answer was " + merged.value);
-              }
+              } else {}
               questions++;
             }
 
@@ -200,7 +203,18 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
         }
       });
     });
-  
+
+    if (del) {
+      var del_tile = this.grid.randomUnavailableCell();
+      self.grid.removeTile(this.grid.randomUnavailableCell());
+      this.score -= del_tile.value;
+      window.alert("thing");
+
+      if (this.grid.availableCells().length==16) {
+        this.over = true; // Game over!
+      }
+    }
+
     if (moved) {
       this.addRandomTile();
   

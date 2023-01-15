@@ -41,6 +41,19 @@ function Grid(size, previousState) {
       return cells[Math.floor(Math.random() * cells.length)];
     }
   };
+
+  // Find the first unavailable random position
+  Grid.prototype.randomUnavailableCell = function () {
+    var cells = [];
+  
+    this.eachCell(function (x, y, tile) {
+      if (tile) {
+        cells.push(tile);
+      }
+    });
+  
+    return cells[Math.floor(Math.random() * cells.length)];
+  };
   
   Grid.prototype.availableCells = function () {
     var cells = [];
