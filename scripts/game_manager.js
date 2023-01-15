@@ -208,7 +208,6 @@ function GameManager(size, InputManager, Actuator, StorageManager) {
       var del_tile = this.grid.randomUnavailableCell();
       self.grid.removeTile(this.grid.randomUnavailableCell());
       this.score -= del_tile.value;
-      window.alert("thing");
 
       if (this.grid.availableCells().length==16) {
         this.over = true; // Game over!
